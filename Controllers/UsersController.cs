@@ -11,20 +11,15 @@ namespace CrudApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController: ControllerBase {
-      private UserContext _context;
-      public UsersController(UserContext context){
-        _context = context;
-      }
-
       [HttpPost]
-      public async Task<ActionResult<UserItem>> createUser(UserItem user){
+      public async Task<ActionResult<UserItem>> createUser([FromBody] UserItem user, [FromServices] UserContext context){
         if(!ModelState.IsValid){
           return BadRequest(ModelState);
         }
 
         try{
-          _context.Users.Add(user);
-          await _context.SaveChangesAsync();
+          context.Users.Add(user);
+          await context.SaveChangesAsync();
         
           return new ObjectResult(user) { StatusCode = 201 };
         }catch(Exception error){
@@ -33,14 +28,14 @@ namespace CrudApi.Controllers
       }
 
       [HttpGet]
-      public async Task<ActionResult<IEnumerable<UserItem>>> getUsers(){
-        return await _context.Users.ToListAsync();
+      public async Task<ActionResult<IEnumerable<UserItem>>> getUsers([FromServices] UserContext context){
+        return await context.Users.ToListAsync();
       }
 
       [Route("{id:int}")]
       [HttpGet]
-      public async Task<ActionResult<UserItem>> getUserById(int id){
-        var user = await _context.Users.Where(user => user.id == id).FirstOrDefaultAsync();
+      public async Task<ActionResult<UserItem>> getUserById(int id, [FromServices] UserContext context){
+        var user = await context.Users.Where(user => user.id == id).FirstOrDefaultAsync();
         if(user == null){
           return NotFound();
         }
@@ -50,22 +45,22 @@ namespace CrudApi.Controllers
 
       [Route("{id:int}")]
       [HttpDelete]
-      public async Task<ActionResult> deleteUserById(int id){
-        var user = await _context.Users.FindAsync(id);
+      public async Task<ActionResult> deleteUserById(int id, [FromServices] UserContext context){
+        var user = await context.Users.FindAsync(id);
         if(user == null){
           return NotFound();
         }
 
-        _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
+        context.Users.Remove(user);
+        await context.SaveChangesAsync();
         
         return NoContent();
       }
 
       [Route("{id:int}")]
       [HttpPut]
-      public async Task<ActionResult> updateUserById(int id, UserItem userUpdated){
-        var user = await _context.Users.FindAsync(id);
+      public async Task<ActionResult> updateUserById(int id, [FromBody] UserItem userUpdated, [FromServices] UserContext context){
+        var user = await context.Users.FindAsync(id);
         if(user == null){
           return NotFound();
         }
@@ -83,7 +78,7 @@ namespace CrudApi.Controllers
         }
 
         if(isEdited){
-          await _context.SaveChangesAsync();
+          await context.SaveChangesAsync();
         }
 
         return NoContent();
