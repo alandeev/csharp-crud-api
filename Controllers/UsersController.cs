@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CrudApi.Models;
+using System.Linq;
 
 namespace CrudApi.Controllers
 {
@@ -36,10 +37,10 @@ namespace CrudApi.Controllers
         return await _context.Users.ToListAsync();
       }
 
-      [Route("{id:long}")]
+      [Route("{id:int}")]
       [HttpGet]
-      public async Task<ActionResult<UserItem>> getUserById(long id){
-        var user = await _context.Users.FindAsync(id);
+      public async Task<ActionResult<UserItem>> getUserById(int id){
+        var user = await _context.Users.Where(user => user.id == id).FirstOrDefaultAsync();
         if(user == null){
           return NotFound();
         }
@@ -47,9 +48,9 @@ namespace CrudApi.Controllers
         return new ObjectResult(user) { StatusCode = 200 };
       }
 
-      [Route("{id:long}")]
+      [Route("{id:int}")]
       [HttpDelete]
-      public async Task<ActionResult> deleteUserById(long id){
+      public async Task<ActionResult> deleteUserById(int id){
         var user = await _context.Users.FindAsync(id);
         if(user == null){
           return NotFound();
@@ -61,9 +62,9 @@ namespace CrudApi.Controllers
         return NoContent();
       }
 
-      [Route("{id:long}")]
+      [Route("{id:int}")]
       [HttpPut]
-      public async Task<ActionResult> updateUserById(long id, UserItem userUpdated){
+      public async Task<ActionResult> updateUserById(int id, UserItem userUpdated){
         var user = await _context.Users.FindAsync(id);
         if(user == null){
           return NotFound();

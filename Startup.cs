@@ -20,6 +20,7 @@ namespace CrudApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<UserContext>(opt => opt.UseInMemoryDatabase("Users"));
+            services.AddScoped<UserContext, UserContext>();
             services.AddControllers();
         }
 
