@@ -17,6 +17,10 @@ namespace CrudApi.Controllers
 
       [HttpPost]
       public async Task<ActionResult<UserItem>> createUser(UserItem user){
+        if(!ModelState.IsValid){
+          return BadRequest(ModelState);
+        }
+
         try{
           _context.Users.Add(user);
           await _context.SaveChangesAsync();
@@ -32,7 +36,7 @@ namespace CrudApi.Controllers
         return await _context.Users.ToListAsync();
       }
 
-      [Route("{id}")]
+      [Route("{id:long}")]
       [HttpGet]
       public async Task<ActionResult<UserItem>> getUserById(long id){
         var user = await _context.Users.FindAsync(id);
@@ -43,7 +47,7 @@ namespace CrudApi.Controllers
         return new ObjectResult(user) { StatusCode = 200 };
       }
 
-      [Route("{id}")]
+      [Route("{id:long}")]
       [HttpDelete]
       public async Task<ActionResult> deleteUserById(long id){
         var user = await _context.Users.FindAsync(id);
@@ -57,7 +61,7 @@ namespace CrudApi.Controllers
         return NoContent();
       }
 
-      [Route("{id}")]
+      [Route("{id:long}")]
       [HttpPut]
       public async Task<ActionResult> updateUserById(long id, UserItem userUpdated){
         var user = await _context.Users.FindAsync(id);
