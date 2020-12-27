@@ -21,6 +21,6 @@ User = {
 [POST] - 'api/users' { name, age } # create user
 
 [GET] - 'api/users/:id' # find one user by id
-[PUT] - 'api/users/:id' { name: 'optional', age: 'optional' } 
+[PUT] - 'api/users/:id' { name: 'optional', age: 'optional' } #edit user data
 [DELETE] - 'api/users/:id' # delete user by id
 ```
