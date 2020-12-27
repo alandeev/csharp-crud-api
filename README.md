@@ -1,7 +1,7 @@
 # CRUD Web-API with CSharp [asp net core] 💖
 
 ## About 
-> I created my first crud in the Asp Net Core in the [MVC].
+> I created my first crud in the Asp Net Core with [MVC].
 
 ## Routers
 ```h
