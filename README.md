@@ -3,16 +3,20 @@
 ## About 
 > I created my first crud in the Asp Net Core with [MVC].
 
-## Routers
-```h
-host_ip: "https://localhost/"
+## Server
 
-user {
-  long id
-  string name
-  int age
-};
+```HOST: https://localhost/```
 
+### Data Type
+```C# 
+User = { 
+  id: long, 
+  name: string, 
+  age: int 
+} 
+```
+### Routes
+```r
 [GET] - 'api/users' # find all users
 [POST] - 'api/users' { name, age } # create user
 
