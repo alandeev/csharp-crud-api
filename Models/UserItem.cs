@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CrudApi.Models
 {
   public class UserItem {
-
-
+ 
     [Editable(false)]
     [DataType("int")]
     [Key]
@@ -19,5 +19,7 @@ namespace CrudApi.Models
     [Range(18, 60, ErrorMessage = "Você precisa ter de 18 a 60 anos para cadastrar-se")]
     [DataType("int")]
     public int age { get; set; }
+
+    public List<TechItem> techs { get; set; }
   }
 }
